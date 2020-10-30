@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <style>
+        .form {
+            background-image: url({% static 'howmuchmoney/img/fon.png' %});
+            background-repeat: repeat;
+            padding: 16px;
+            font-size: 16px;
+            border: solid;
+            cursor: pointer;
+            width: 250px;
+            border-radius: 10px;
+            margin: auto;
+        }
+        .table {
+            background-image: url({% static 'howmuchmoney/img/fon.png' %});
+            background-repeat: repeat;
+            padding: 16px;
+            font-size: 16px;
+            border: solid;
+            width: 250px;
+            border-radius: 10px;
+            margin: auto;
+        }
+        body {
+            background-image: url({% static 'howmuchmoney/img/fon1.png' %});
+            background-repeat: repeat;
+        }
+    </style>
+    <link rel="shortcut icon" href="{% static 'howmuchmoney/img/favicon.ico' %}" type="image/x-icon">
+</head>
+<body>
+    <h1 align="center">How Much Money</h1>
+    <p align="center"><font size="5" color="red" face="Arial">{{ current_time }}</font></p>
+
+    <div class="form" > 
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p align="center"><input type="number" size="30" min="1" max="10000000" value="{{ amount }}" name="amount" >
+            <select name="currency" size="1">
+            {% for currency in calculated %}
+            {% if currency == selected_currency %}
+                <option selected value="{{ currency }}">{{ currency }}</option>
+            {% else %}
+                <option value="{{ currency }}">{{ currency }}</option>
+            {% endif %}
+            {% endfor %}
+            
+            </select>
+            </p>
+            <p align="center">
+            <input type="submit" value="Convert">
+            </p> 
+        </form>
+    </div>
+    <div class="table">
+        <p></p>
+        <table border="0" align="center">
+            {% for currency, rate in calculated.items %}
+            <tr>
+             <td>{{ currency }}</td>
+             <td>{{ rate|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+    </div>
+</body>
